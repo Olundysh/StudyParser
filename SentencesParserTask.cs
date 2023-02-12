@@ -6,7 +6,7 @@ namespace TextAnalysis
 {
     static class SentencesParserTask
     {
-       public static List<string> ParseWords(string sentence)
+        public static List<string> ParseWords(string sentence)
         {
             var word = new StringBuilder();
             var wordList = new List<string>();
@@ -20,26 +20,21 @@ namespace TextAnalysis
                     {
                         wordList.Add(word.ToString().ToLower());
                     }
-                    
                 }
-                else
+                else if (word.Length > 0)
                 {
-                    {
-                        if (!word.Equals(new StringBuilder(0)))
-                            wordList.Add(word.ToString().ToLower());
-                    }
-
-                    word.Remove(0, word.Length);
+                    wordList.Add(word.ToString().ToLower());
+                    word.Clear();
                 }
             }
-            
+
             return wordList;
         }
 
-      public  static List<List<string>> ParseSentences(string text)
+        public static List<List<string>> ParseSentences(string text)
         {
 
-            var separators = new[] { '.', '!', '?', ';', ':', '(', ')', '\t', '\n', '\r' };
+            var separators = new[] { '.', '!', '?', ';', ':', '(', ')' };
             var sentences = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
             var sentencesList = new List<List<string>>();
