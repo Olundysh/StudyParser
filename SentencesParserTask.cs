@@ -8,24 +8,28 @@ namespace TextAnalysis
     {
         public static List<string> ParseWords(string sentence)
         {
-            var word = new StringBuilder();
             var wordList = new List<string>();
+            var word = new StringBuilder();
+           
 
             for (var i = 0; i < sentence.Length; i++)
             {
                 if (char.IsLetter(sentence[i]) || sentence[i] == '\'')
                 {
-                    word.Append(sentence[i]);
-                    if (i == sentence.Length - 1)
-                    {
-                        wordList.Add(word.ToString().ToLower());
-                    }
+                    word.Append(sentence[i].ToString().ToLower());
+                   
                 }
-                else if (word.Length > 0)
+                else 
                 {
-                    wordList.Add(word.ToString().ToLower());
-                    word.Clear();
+                    word.Append(' ');
                 }
+            }
+            
+            string[] stringsOfWords = word.ToString().Split(new char[] {' '}, System.StringSplitOptions.RemoveEmptyEntries);
+            
+            foreach (string item in stringsOfWords)
+            {
+                wordList.Add(item);
             }
 
             return wordList;
