@@ -8,44 +8,50 @@ namespace TextAnalysis
     {
         public static List<string> ParseWords(string sentence)
         {
-            var wordList = new List<string>();
+            List<string> wordList = null;
             var word = new StringBuilder();
-           
 
-            for (var i = 0; i < sentence.Length; i++)
+            foreach (char ch in sentence)
             {
-                if (char.IsLetter(sentence[i]) || sentence[i] == '\'')
+                if (char.IsLetter(ch) || ch == '\'')
                 {
-                    word.Append(sentence[i].ToString().ToLower());
-                   
+                    word.Append(char.ToLower(ch));
                 }
-                else 
+                else if (word.Length > 0)
                 {
-                    word.Append(' ');
+                    wordList = wordList ?? new List<string>();
+                    wordList.Add(word.ToString());
+                    word.Clear();
                 }
             }
-            
-            string[] stringsOfWords = word.ToString().Split(new char[] {' '}, System.StringSplitOptions.RemoveEmptyEntries);
-            
-            foreach (string item in stringsOfWords)
+
+            if (word.Length > 0)
             {
-                wordList.Add(item);
+                wordList = wordList ?? new List<string>();
+                wordList.Add(word.ToString());
             }
 
             return wordList;
         }
 
+        private static readonly IReadOnlyList<char> _separators = new[] { '.', '!', '?', ';', ':', '(', ')' };
+        
         public static List<List<string>> ParseSentences(string text)
         {
+            if (text is null)
+                throw new ArgumentNullException(nameof(text));
+            if (string.IsNullOrWhiteSpace(text))
+                return new List<List<string>>();
+            
+            string[] sentences = text.Split((char[]) _separators, StringSplitOptions.RemoveEmptyEntries);
 
-            var separators = new[] { '.', '!', '?', ';', ':', '(', ')' };
-            var sentences = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
-            var sentencesList = new List<List<string>>();
+            var sentencesList = new List<List<string>>(sentences.Length);
 
             foreach (var t in sentences)
             {
-                sentencesList.Add(ParseWords(t));
+                var sentence = ParseWords(t);
+                if (sentence?.Count > 0)
+                    sentencesList.Add(sentence);
             }
 
             return sentencesList;
