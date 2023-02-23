@@ -31,8 +31,8 @@ namespace TextAnalysis
             var sentences = SentencesParserTask.ParseSentences(text);
             var frequency = FrequencyAnalysisTask.GetMostFrequentNextWords(sentences);
             //Расскомментируйте этот блок, если хотите выполнить последнюю задачу до первых двух.
-            /*
-            frequency = new Dictionary<string, string>
+            
+            /* frequency = new Dictionary<string, string>
             {
                 {"harry", "potter"},
                 {"potter", "boy" },

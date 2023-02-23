@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyParser_MyTests.cs" />
     <Compile Include="TextGenerator_Tests.cs" />
     <Compile Include="FrequencyAnalysis_Tests.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
